@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="id.ac.stiki.doleno.mangab">
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_mangab"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_mangab"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.HelpActivity"></activity>
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.EnterCodeActivity" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.ScanResultActivity" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.HistoryMhsActivity" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.RekapActivity" />
+        <activity
+            android:name="id.ac.stiki.doleno.mangab.activity.ChangePasswordActivity"
+            android:noHistory="true" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.HistoryActivity" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.ResultActivity" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.GenerateActivity" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.MainActivity" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.ScanActivity" />
+        <activity
+            android:name="id.ac.stiki.doleno.mangab.activity.LoginActivity"
+            android:noHistory="true" />
+        <activity android:name="id.ac.stiki.doleno.mangab.activity.AboutActivity" />
+    </application>
+
+</manifest>

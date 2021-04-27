@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3032A0</color>
+    <color name="colorPrimaryDark">#3032A0</color>
+    <color name="colorAccent">#FF8535</color>
+    <color name="colorText">#504F60</color>
+    <color name="colorBlue">#920000</color>
+    <color name="colorBlueNeon">#FF0303</color>
+    <color name="colorBlueLight">#E25353</color>
+    <color name="bgCardview">#F9FAFA</color>
+    <color name="colorIzin">#4CAF50</color>
+    <color name="colorSakit">#F44336</color>
+    <color name="colorTugas">#FFC107</color>
+    <color name="colorLightGray">#EBEBEB</color>
+</resources>
