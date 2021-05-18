@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnHelp.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), HelpActivity.class)));
 
-        btnLogout.setOnClickListener(v -> api.logout(user.noInduk).enqueue(new Callback<BaseResponse>() {
+        btnLogout.setOnClickListener(v -> api.logout(user.email).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 if (!response.body().error) {

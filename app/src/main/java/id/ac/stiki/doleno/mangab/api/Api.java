@@ -22,15 +22,15 @@ public interface Api {
 
     @POST("auth/login")
     @FormUrlEncoded
-    Call<LoginResponse> login(@Field("no_induk") String noInduk, @Field("password") String password, @Field("device_id") String deviceId);
+    Call<LoginResponse> login(@Field("email") String email, @Field("password") String password, @Field("device_id") String deviceId);
 
     @POST("auth/logout")
     @FormUrlEncoded
-    Call<BaseResponse> logout(@Field("no_induk") String noInduk);
+    Call<BaseResponse> logout(@Field("email") String email);
 
     @POST("auth/changePassword")
     @FormUrlEncoded
-    Call<BaseResponse> changePassword(@Field("no_induk") String noInduk, @Field("new_password") String newPassword);
+    Call<BaseResponse> changePassword(@Field("email") String email, @Field("new_password") String newPassword);
 
     @POST("matkul/myLecture")
     @FormUrlEncoded

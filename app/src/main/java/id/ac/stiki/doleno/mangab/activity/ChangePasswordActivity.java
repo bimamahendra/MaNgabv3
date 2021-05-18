@@ -44,7 +44,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         etPasswordConfirm = findViewById(R.id.etPasswordConfirm);
         btnChangePassword = findViewById(R.id.btnChangePassword);
 
-        btnChangePassword.setOnClickListener(v -> api.changePassword(user.noInduk, etPasswordConfirm.getText().toString()).enqueue(new Callback<BaseResponse>() {
+        btnChangePassword.setOnClickListener(v -> api.changePassword(user.email, etPasswordConfirm.getText().toString()).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 if(!etPasswordNew.getText().toString().equals(etPasswordConfirm.getText().toString())){

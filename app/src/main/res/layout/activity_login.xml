@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat_light"
-            android:text="ID Number" />
+            android:text="Email" />
 
         <EditText
             android:id="@+id/etNRP"
@@ -82,8 +82,8 @@
             android:drawableRight="@drawable/ic_recent_actors_black_24dp"
             android:drawablePadding="20dp"
             android:fontFamily="@font/montserrat_semibold"
-            android:hint="12345"
-            android:inputType="number"
+            android:hint="email@stiki.ac.id"
+            android:inputType="textEmailAddress"
             android:maxLines="1" />
 
         <TextView
