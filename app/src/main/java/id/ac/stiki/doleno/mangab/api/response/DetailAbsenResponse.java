@@ -10,7 +10,7 @@ public class DetailAbsenResponse extends BaseResponse implements Serializable {
     public List<MhsData> data;
 
     public static class MhsData implements Serializable{
-        @SerializedName("GET_NRP")
+        @SerializedName("NRP_MHS")
         public String nrp;
 
         @SerializedName("NAMA_MHS")
