@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginBottom="7.5dp"
-    app:cardCornerRadius="5dp">
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true">
 
 
     <LinearLayout
@@ -47,15 +48,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="start">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_clock"
                 android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp" />
 
             <TextView
                 android:id="@+id/tvClassDateTime"
@@ -66,32 +72,36 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="12sp"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:textStyle="bold" />
+            </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="end">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_room"
                 android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp" />
 
             <TextView
                 android:id="@+id/tvRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A.1.1"
+                android:text="DARING"
                 android:fontFamily="@font/montserrat_light"
                 android:layout_gravity="center_vertical"
                 android:textSize="12sp"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:layout_marginEnd="20dp"/>
+            </LinearLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,8 +113,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_draft"
                 android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginStart="10dp" />
 
             <TextView
                 android:id="@+id/tvTopik"
@@ -115,9 +124,73 @@
                 android:layout_gravity="center_vertical"
                 android:textSize="12sp"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:layout_marginBottom="5dp"/>
+                android:textStyle="bold" />
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_person"
+                    android:layout_marginStart="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="Hadir\n0"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:id="@+id/tvHadir"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="Sakit\n0"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:id="@+id/tvSakit"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="Izin\n0"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:id="@+id/tvIzin"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="Alpha\n0"
+                    android:textColor="@android:color/black"
+                    android:layout_marginEnd="10dp"
+                    android:textStyle="bold"
+                    android:id="@+id/tvAlpha"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+
 
     </LinearLayout>
     </LinearLayout>

@@ -1,5 +1,6 @@
 package id.ac.stiki.doleno.mangab.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,4 +35,10 @@ public class HistoryActivity extends AppCompatActivity {
         tlHistory.setupWithViewPager(vpHistory);
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 }

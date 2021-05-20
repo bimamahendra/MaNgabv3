@@ -54,45 +54,13 @@ public class HistoryAbsensiAdapter extends RecyclerView.Adapter<HistoryAbsensiAd
     @Override
     public void onBindViewHolder(@NonNull HistoriAbsensiVH holder, int position) {
         holder.tvMataKuliahClass.setText(dataHistory.get(position).namaMatkul + " | " + dataHistory.get(position).kelasMatkul);
-        holder.tvClassDateTime.setText(parseDate(dataHistory.get(position).jadwalKelas));
-        holder.tvRoom.setText(dataHistory.get(position).jenisAbsen == 0? "Offline" : "Online");
+        holder.tvClassDateTime.setText(parseDate(dataHistory.get(position).tsAbsen));
+        holder.tvRoom.setText(dataHistory.get(position).ruangMatkul);
         holder.tvTopik.setText(dataHistory.get(position).topikMatkul);
-
-        if (dataHistory.get(position).statusAbsen != 0){
-            holder.itemView.setClickable(false);
-        }else {
-            holder.llBodyCard.setBackgroundResource(R.color.colorGreenCard);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    api.regenerateQrCode(dataHistory.get(position).idAbsen).enqueue(new Callback<GenerateQrCodeResponse>() {
-                        @Override
-                        public void onResponse(Call<GenerateQrCodeResponse> call, Response<GenerateQrCodeResponse> response) {
-                            if(!response.body().error){
-                                Intent intent = new Intent(v.getContext(), ResultActivity.class);
-                                intent.putExtra(UrlImgValue, response.body().url);
-                                intent.putExtra(idAbsen, response.body().idAbsen);
-                                intent.putExtra(GenerateResponse, response.body());
-                                v.getContext().startActivity(intent);
-                            }else {
-                                Toast.makeText(v.getContext(), response.body().message, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<GenerateQrCodeResponse> call, Throwable t) {
-                            if(t instanceof UnknownHostException){
-                                Toast.makeText(v.getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                            }else {
-                                t.printStackTrace();
-                            }
-
-                        }
-                    });
-
-                }
-            });
-        }
+        holder.tvHadir.setText("Hadir\n"+dataHistory.get(position).hadir);
+        holder.tvSakit.setText("Sakit\n"+dataHistory.get(position).sakit);
+        holder.tvIzin.setText("Izin\n"+dataHistory.get(position).izin);
+        holder.tvAlpha.setText("Alpha\n"+dataHistory.get(position).alpha);
     }
 
     public String parseDate(String time) {
@@ -120,7 +88,7 @@ public class HistoryAbsensiAdapter extends RecyclerView.Adapter<HistoryAbsensiAd
 
     public class HistoriAbsensiVH extends RecyclerView.ViewHolder {
 
-        TextView tvMataKuliahClass, tvClassDateTime, tvTopik, tvRoom;
+        TextView tvMataKuliahClass, tvClassDateTime, tvTopik, tvRoom, tvHadir, tvSakit, tvIzin, tvAlpha;
         LinearLayout llBodyCard;
 
         public HistoriAbsensiVH(@NonNull View itemView) {
@@ -130,6 +98,10 @@ public class HistoryAbsensiAdapter extends RecyclerView.Adapter<HistoryAbsensiAd
             tvTopik = itemView.findViewById(R.id.tvTopik);
             tvRoom = itemView.findViewById(R.id.tvRoom);
             llBodyCard = itemView.findViewById(R.id.llBodyCard);
+            tvHadir = itemView.findViewById(R.id.tvHadir);
+            tvSakit = itemView.findViewById(R.id.tvSakit);
+            tvIzin = itemView.findViewById(R.id.tvIzin);
+            tvAlpha = itemView.findViewById(R.id.tvAlpha);
         }
 
     }
