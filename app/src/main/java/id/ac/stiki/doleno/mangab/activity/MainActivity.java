@@ -57,15 +57,16 @@ public class MainActivity extends AppCompatActivity {
         String date = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
                 .format(Calendar.getInstance().getTime());
         tvCurrentDate.setText(day + "\n" + date);
-        String name = user.nama.substring( 0, user.nama.indexOf(","));
-        String degree = user.nama.substring(user.nama.indexOf(",")+1);
-        tvName.setText(name + ", \n" + degree);
         tvNoInduk.setText(user.noInduk);
 
         if (user.type.equalsIgnoreCase("mahasiswa")) {
+            tvName.setText(user.nama);
             cvGenerate.setVisibility(View.GONE);
             cvScan.setVisibility(View.VISIBLE);
         } else {
+            String name = user.nama.substring( 0, user.nama.indexOf(","));
+            String degree = user.nama.substring(user.nama.indexOf(",")+1);
+            tvName.setText(name + ", \n" + degree);
             cvGenerate.setVisibility(View.VISIBLE);
             cvScan.setVisibility(View.GONE);
         }
