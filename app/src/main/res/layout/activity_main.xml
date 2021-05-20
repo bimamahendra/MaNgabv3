@@ -31,6 +31,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Nanda Bima Mahendra"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/white" />
 
@@ -110,7 +112,8 @@
             android:layout_height="0dp"
             android:layout_weight="0.8"
             android:layout_margin="10dp"
-            CardView_cardCornerRadius="40dp">
+            CardView_cardCornerRadius="40dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,7 +160,8 @@
             android:layout_weight="0.8"
             android:clickable="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:visibility="gone">
+            android:visibility="gone"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -205,7 +209,8 @@
             android:layout_weight="0.8"
             android:layout_margin="10dp"
             CardView_cardCornerRadius="40dp"
-            android:id="@+id/cvHistory">
+            android:id="@+id/cvHistory"
+            app:cardUseCompatPadding="true">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

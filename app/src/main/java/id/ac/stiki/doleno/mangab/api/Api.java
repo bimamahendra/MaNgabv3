@@ -42,15 +42,17 @@ public interface Api {
 
     @POST("absen/generate")
     @FormUrlEncoded
-    Call<GenerateQrCodeResponse> generateQrCode(@Field("id_matkul") String idMatkul,
+    Call<GenerateQrCodeResponse> generateQrCode(@Field("id_jadwal") String idJadwal,
+                                                @Field("nip") String nip,
                                                 @Field("topik") String topik,
+                                                @Field("metode") String metode,
                                                 @Field("tipe") Integer tipe,
                                                 @Field("latitude") double latitude,
                                                 @Field("longitude") double longitude);
 
     @POST("absen/regenerate")
     @FormUrlEncoded
-    Call<GenerateQrCodeResponse> regenerateQrCode(@Field("id_absen") String idAbsen);
+    Call<GenerateQrCodeResponse> regenerateQrCode(@Field("id_jadwal") String idJadwal);
 
     @POST("absen/absenMhs")
     @FormUrlEncoded

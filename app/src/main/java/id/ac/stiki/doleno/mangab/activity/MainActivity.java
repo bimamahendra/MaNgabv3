@@ -54,10 +54,12 @@ public class MainActivity extends AppCompatActivity {
 
         String day = new SimpleDateFormat("EEEE", Locale.getDefault())
                 .format(Calendar.getInstance().getTime());
-        String date = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
+        String date = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
                 .format(Calendar.getInstance().getTime());
         tvCurrentDate.setText(day + "\n" + date);
-        tvName.setText(user.nama);
+        String name = user.nama.substring( 0, user.nama.indexOf(","));
+        String degree = user.nama.substring(user.nama.indexOf(",")+1);
+        tvName.setText(name + ", \n" + degree);
         tvNoInduk.setText(user.noInduk);
 
         if (user.type.equalsIgnoreCase("mahasiswa")) {
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         cvGenerate.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), GenerateActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class);
             startActivity(intent);
         });
         cvHistory.setOnClickListener(v -> {

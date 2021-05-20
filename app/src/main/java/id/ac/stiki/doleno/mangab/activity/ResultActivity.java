@@ -8,12 +8,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +33,7 @@ import id.ac.stiki.doleno.mangab.api.ApiClient;
 import id.ac.stiki.doleno.mangab.api.response.DetailAbsenResponse;
 import id.ac.stiki.doleno.mangab.api.response.GenerateQrCodeResponse;
 
+import java.io.OutputStream;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -36,6 +44,7 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
     ImageView ivQR;
     RecyclerView rvList;
     Button btnDone;
+    ImageButton btnShare;
     TextView tvCode;
 
     GenerateQrCodeResponse generateQrCodeResponse;
@@ -68,6 +77,7 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
         ivQR = findViewById(R.id.ivQRCode);
         rvList = findViewById(R.id.rvList);
         btnDone = findViewById(R.id.btnDone);
+        btnShare = findViewById(R.id.btnShare);
         tvCode = findViewById(R.id.tvCode);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
@@ -79,15 +89,40 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
                 .centerCrop()
                 .into(ivQR);
 
+
+
         tvCode.setText(getIntent().getStringExtra(GenerateActivity.idAbsen));
-        btnDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        btnShare.setOnClickListener(v -> {
+            BitmapDrawable drawable = (BitmapDrawable) ivQR.getDrawable();
+            Bitmap icon = drawable.getBitmap();
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/jpeg");
+
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.TITLE, "title");
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    values);
+            OutputStream outstream;
+            try {
+                outstream = getContentResolver().openOutputStream(uri);
+                icon.compress(Bitmap.CompressFormat.JPEG, 100, outstream);
+                outstream.close();
+            } catch (Exception e) {
+                System.err.println(e.toString());
+            }
+
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.putExtra(Intent.EXTRA_TEXT, "MaNgab QR Code : "+ tvCode.getText());
+            startActivity(Intent.createChooser(share, "Share Image"));
+
+        });
+        btnDone.setOnClickListener(v -> {
                 Intent intent = new Intent(getApplicationContext(), RekapActivity.class);
                 intent.putExtra("absen", (ArrayList)((DetailAbsensiAdapter) rvList.getAdapter()).getDataMhs());
                 intent.putExtra("idabsen", generateQrCodeResponse.idAbsen);
                 startActivity(intent);
-            }
         });
     }
 
@@ -129,7 +164,7 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
         if(!response.body().error){
             ((DetailAbsensiAdapter) rvList.getAdapter()).setNewData(response.body().data);
         }else {
-            Toast.makeText(this, response.body().message, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, response.body().message, Toast.LENGTH_SHORT).show();
         }
     }
 

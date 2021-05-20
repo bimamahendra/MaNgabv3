@@ -11,16 +11,32 @@ public class MyLectureResponse extends BaseResponse {
     public List<MyLectureData> data;
 
     public static class MyLectureData{
-        @SerializedName("kode")
+        @SerializedName("KODE_MATKUL")
         public String kode;
 
-        @SerializedName("nama")
+        @SerializedName("NAMA_MATKUL")
         public String nama;
 
-        @NonNull
-        @Override
-        public String toString() {
-            return nama;
-        }
+        @SerializedName("KELAS_PRTMN")
+        public String kelas;
+
+        @SerializedName("RUANG_PRTMN")
+        public String ruang;
+
+        @SerializedName("ID_JADWAL")
+        public String idJadwal;
+
+        @SerializedName("HARI_KELAS")
+        public String hari;
+
+        @SerializedName("WAKTU_AWAL")
+        public String waktuAwal;
+
+        @SerializedName("WAKTU_AKHIR")
+        public String waktuAkhir;
+
+        @SerializedName("check_active")
+        public int checkActive;
+
     }
 }

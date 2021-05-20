@@ -6,10 +6,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -19,11 +19,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import id.ac.stiki.doleno.mangab.R;
+import id.ac.stiki.doleno.mangab.adapter.ScheduleAdapter;
 import id.ac.stiki.doleno.mangab.api.Api;
 import id.ac.stiki.doleno.mangab.api.ApiClient;
 import id.ac.stiki.doleno.mangab.api.response.GenerateQrCodeResponse;
 import id.ac.stiki.doleno.mangab.api.response.MyClassResponse;
-import id.ac.stiki.doleno.mangab.api.response.MyLectureResponse;
 import id.ac.stiki.doleno.mangab.model.User;
 import id.ac.stiki.doleno.mangab.preference.AppPreference;
 import id.ac.stiki.doleno.mangab.preference.MyLocation;
@@ -44,17 +44,19 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     MyClassResponse.MyClassData selectedClass;
 
     Button btnGenerate;
-    TextView tvDosenName, tvDate;
+    TextView tvSubject, tvDate;
     Spinner spSubject, spClass;
-    EditText etTopic;
+    EditText etTopic, etMethod;
     RadioGroup rgType;
     RadioButton rbOffline, rbOnline;
+    ProgressBar progressBar;
 
     public static final String UrlImgValue = "urlimg";
     public static final String idAbsen = "idabsen";
     public static final String GenerateResponse = "GenerateResponse";
     private Integer type;
     MyLocation myLocation = new MyLocation();
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,69 +65,18 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
         user = AppPreference.getUser(this);
 
         btnGenerate = findViewById(R.id.btnGenerate);
-        tvDosenName = findViewById(R.id.tvDosenName);
+        tvSubject = findViewById(R.id.tvSubject);
         tvDate = findViewById(R.id.tvDate);
-        spSubject = findViewById(R.id.spSubject);
-        spClass = findViewById(R.id.spClass);
         etTopic = findViewById(R.id.etTopic);
+        etMethod = findViewById(R.id.etMethod);
         rgType = findViewById(R.id.rgType);
         rbOffline = findViewById(R.id.rbOffline);
         rbOnline = findViewById(R.id.rbOnline);
+        progressBar = findViewById(R.id.progressbar);
 
-        tvDosenName.setText(user.nama);
+        tvSubject.setText(getIntent().getStringExtra(ScheduleAdapter.Subject) + " | " + getIntent().getStringExtra(ScheduleAdapter.SubClass));
         tvDate.setText(new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
                 .format(Calendar.getInstance().getTime()));
-
-        api.myLecture(user.noInduk).enqueue(new Callback<MyLectureResponse>() {
-            @Override
-            public void onResponse(Call<MyLectureResponse> call, Response<MyLectureResponse> response) {
-                if (!response.body().error) {
-                    spSubject.setAdapter(new ArrayAdapter<>(getApplicationContext(),
-                            android.R.layout.simple_spinner_dropdown_item, response.body().data));
-                } else {
-                    Toast.makeText(GenerateActivity.this, response.body().message,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MyLectureResponse> call, Throwable t) {
-                if (t instanceof UnknownHostException) {
-                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                } else {
-                    t.printStackTrace();
-                }
-            }
-        });
-
-        spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                MyLectureResponse.MyLectureData data = (MyLectureResponse.MyLectureData)
-                        adapterView.getSelectedItem();
-                api.myClass(data.kode).enqueue(new Callback<MyClassResponse>() {
-                    @Override
-                    public void onResponse(Call<MyClassResponse> call, Response<MyClassResponse> response) {
-                        spClass.setAdapter(new ArrayAdapter<>(getApplicationContext(),
-                                android.R.layout.simple_spinner_dropdown_item, response.body().data));
-                    }
-
-                    @Override
-                    public void onFailure(Call<MyClassResponse> call, Throwable t) {
-                        if (t instanceof UnknownHostException) {
-                            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                        } else {
-                            t.printStackTrace();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         rgType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -149,15 +100,16 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view == btnGenerate) {
-
-            selectedClass = (MyClassResponse.MyClassData) spClass.getSelectedItem();
-            if (selectedClass == null) {
-                Toast.makeText(this, "Class didn't chosen yet", Toast.LENGTH_SHORT).show();
-                return;
-            }
+            view.startAnimation(buttonClick);
+            progressBar.setVisibility(View.VISIBLE);
 
             if (etTopic.getText().toString().equals("")) {
                 Toast.makeText(this, "Topic is empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (etMethod.getText().toString().equals("")) {
+                Toast.makeText(this, "Media is empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -186,11 +138,13 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     };
 
     private void generateQrCode(double latitude, double longitude) {
-        api.generateQrCode(selectedClass.idMatkul, etTopic.getText().toString(),
-                type, latitude, longitude).enqueue(new Callback<GenerateQrCodeResponse>() {
+        api.generateQrCode(getIntent().getStringExtra(ScheduleAdapter.IdJadwal), user.noInduk, etTopic.getText().toString(),
+                etMethod.getText().toString(), type, latitude, longitude).enqueue(new Callback<GenerateQrCodeResponse>() {
             @Override
             public void onResponse(Call<GenerateQrCodeResponse> call, Response<GenerateQrCodeResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if (!response.body().error) {
+
                     Intent intent = new Intent(GenerateActivity.this, ResultActivity.class);
                     intent.putExtra(UrlImgValue, response.body().url);
                     intent.putExtra(idAbsen, response.body().idAbsen);

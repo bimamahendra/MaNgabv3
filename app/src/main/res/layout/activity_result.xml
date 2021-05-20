@@ -35,10 +35,14 @@
             android:src="@color/bgCardview"
             android:id="@+id/ivQRCode"/>
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="0.04"
+            android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/tvCode"
             android:text="@string/app_name"
             android:textAlignment="center"
@@ -46,6 +50,15 @@
             android:fontFamily="@font/montserrat_semibold"
             android:textColor="@android:color/black"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+
+        <ImageButton
+            android:id="@+id/btnShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:src="@drawable/ic_share"
+            android:backgroundTint="@color/colorAccent" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

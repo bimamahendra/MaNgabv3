@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import id.ac.stiki.doleno.mangab.R;
@@ -60,7 +61,7 @@ public class HistoryAbsensiAdapter extends RecyclerView.Adapter<HistoryAbsensiAd
         if (dataHistory.get(position).statusAbsen != 0){
             holder.itemView.setClickable(false);
         }else {
-            holder.llBodyCard.setBackgroundColor(Color.parseColor("#A4FFA8"));
+            holder.llBodyCard.setBackgroundResource(R.color.colorGreenCard);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
