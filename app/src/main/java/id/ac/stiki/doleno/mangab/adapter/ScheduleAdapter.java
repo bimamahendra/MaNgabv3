@@ -66,7 +66,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         holder.itemView.setOnClickListener(v -> {
             if(list.get(position).checkActive == 0) {
                 Intent intent = new Intent(v.getContext(), GenerateActivity.class);
-                intent.putExtra(idAbsen, list.get(position).idJadwal);
+                intent.putExtra(IdJadwal, list.get(position).idJadwal);
                 intent.putExtra(Subject, list.get(position).nama);
                 intent.putExtra(SubClass, list.get(position).kelas);
                 v.getContext().startActivity(intent);

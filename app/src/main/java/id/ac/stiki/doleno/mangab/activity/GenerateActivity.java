@@ -144,7 +144,6 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
             public void onResponse(Call<GenerateQrCodeResponse> call, Response<GenerateQrCodeResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 if (!response.body().error) {
-
                     Intent intent = new Intent(GenerateActivity.this, ResultActivity.class);
                     intent.putExtra(UrlImgValue, response.body().url);
                     intent.putExtra(idAbsen, response.body().idAbsen);
