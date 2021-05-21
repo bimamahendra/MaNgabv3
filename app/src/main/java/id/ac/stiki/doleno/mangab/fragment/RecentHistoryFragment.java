@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import id.ac.stiki.doleno.mangab.R;
@@ -38,17 +39,18 @@ public class RecentHistoryFragment extends Fragment {
 
     private RecyclerView rvHistory;
     private SwipeRefreshLayout srlHistory;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recent_history, container, false);
 
-        // Inflate the layout for this fragment
         user = AppPreference.getUser(getContext());
 
         rvHistory = view.findViewById(R.id.rvHistory);
         srlHistory = view.findViewById(R.id.srlHistory);
+        progressBar = view.findViewById(R.id.progressbarHis);
 
         rvHistory.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -69,6 +71,7 @@ public class RecentHistoryFragment extends Fragment {
             api.historyAbsensiMhs(user.noInduk).enqueue(new Callback<HistoryAbsensiMhsResponse>() {
                 @Override
                 public void onResponse(Call<HistoryAbsensiMhsResponse> call, Response<HistoryAbsensiMhsResponse> response) {
+                    progressBar.setVisibility(View.GONE);
                     if(!response.body().error){
                         rvHistory.setAdapter(new HistoryMhsAdapter(response.body().data));
                     }else {
@@ -78,6 +81,7 @@ public class RecentHistoryFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<HistoryAbsensiMhsResponse> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
                     if(t instanceof UnknownHostException){
                         Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                     }else {
@@ -105,7 +109,6 @@ public class RecentHistoryFragment extends Fragment {
                     }else {
                         t.printStackTrace();
                     }
-                    Log.e("getHistory", t.getMessage());
                 }
             });
         }

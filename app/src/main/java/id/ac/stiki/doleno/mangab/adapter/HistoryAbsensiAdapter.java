@@ -38,7 +38,6 @@ import static id.ac.stiki.doleno.mangab.activity.GenerateActivity.idAbsen;
 public class HistoryAbsensiAdapter extends RecyclerView.Adapter<HistoryAbsensiAdapter.HistoriAbsensiVH> {
 
     private List<HistoryAbsensiResponse.HistoryAbsensiData> dataHistory;
-    Api api = ApiClient.getClient();
 
     public HistoryAbsensiAdapter(List<HistoryAbsensiResponse.HistoryAbsensiData> dataHistory) {
         this.dataHistory = dataHistory;

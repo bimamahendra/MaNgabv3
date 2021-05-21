@@ -6,8 +6,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,12 +35,14 @@ import retrofit2.Response;
 
 public class RekapActivity extends AppCompatActivity implements RekapAbsensiAdapter.RekapAbsensiListener {
 
-    private Api api;
-    private String idAbsen;
+     Api api;
+    String idAbsen;
 
-    private RecyclerView rvRekap;
-    private Button btnRekap;
-    private EditText etNote;
+    RecyclerView rvRekap;
+    Button btnRekap;
+    EditText etNote;
+    ProgressBar progressBar;
+    AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.6F);
 
     private ArrayList<DetailAbsenResponse.MhsData> filteredList = new ArrayList<>();
 
@@ -63,12 +67,13 @@ public class RekapActivity extends AppCompatActivity implements RekapAbsensiAdap
         rvRekap = findViewById(R.id.rvRekap);
         btnRekap = findViewById(R.id.btnRekap);
         etNote = findViewById(R.id.etNote);
+        progressBar = findViewById(R.id.progressbarRec);
 
         setRecyclerView();
 
-        btnRekap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnRekap.setOnClickListener(v -> {
+            v.startAnimation(buttonClick);
+            progressBar.setVisibility(View.VISIBLE);
                 api.rekap(idAbsen, etNote.getText().toString()).enqueue(new Callback<BaseResponse>() {
                     @Override
                     public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
@@ -92,7 +97,7 @@ public class RekapActivity extends AppCompatActivity implements RekapAbsensiAdap
                         }
                     }
                 });
-            }
+
         });
     }
 

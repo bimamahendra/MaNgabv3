@@ -56,7 +56,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     public static final String GenerateResponse = "GenerateResponse";
     private Integer type;
     MyLocation myLocation = new MyLocation();
-    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+    AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.6F);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
         rgType = findViewById(R.id.rgType);
         rbOffline = findViewById(R.id.rbOffline);
         rbOnline = findViewById(R.id.rbOnline);
-        progressBar = findViewById(R.id.progressbar);
+        progressBar = findViewById(R.id.progressbarGen);
 
         tvSubject.setText(getIntent().getStringExtra(ScheduleAdapter.Subject) + " | " + getIntent().getStringExtra(ScheduleAdapter.SubClass));
         tvDate.setText(new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
@@ -156,6 +156,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<GenerateQrCodeResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 if (t instanceof UnknownHostException) {
                     Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                 } else {

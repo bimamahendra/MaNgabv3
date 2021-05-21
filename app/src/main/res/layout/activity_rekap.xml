@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="id.ac.stiki.doleno.mangab.activity.RekapActivity"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context="id.ac.stiki.doleno.mangab.activity.RekapActivity">
+
+    <ProgressBar
+        android:id="@+id/progressbarRec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|center_horizontal"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRekap"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
+
 
     <EditText
+        android:id="@+id/etNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:height="100dp"
-        android:hint="Catatan"
-        android:id="@+id/etNote"/>
+        android:hint="Catatan" />
 
     <Button
         android:id="@+id/btnRekap"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#FFF"
-        android:background="@drawable/btn_round"
-        android:textAllCaps="false"
-        android:text="Recap"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_round"
         android:fontFamily="@font/montserrat_bold"
-        android:layout_height="wrap_content" />
+        android:text="Recap"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FFF" />
 
 </LinearLayout>

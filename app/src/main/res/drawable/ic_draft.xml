@@ -3,9 +3,9 @@
     <path android:fillColor="#3032a0"
         android:pathData="M0.239,1.853v56.318h46.849L47.088,15.687l-12.861,-13.833L0.239,1.854Z"
         android:strokeColor="#3032a0" android:strokeWidth="0.476"/>
-    <path android:fillColor="#696db5"
+    <path android:fillColor="#FF95577E"
         android:pathData="M32.72,0.371l15.685,15.685L32.35,16.056L32.35,0"
-        android:strokeColor="#696db5" android:strokeWidth="0.494"/>
+        android:strokeColor="#FF95577E" android:strokeWidth="0.494"/>
     <path android:fillColor="#ff9a00"
         android:pathData="M6.084,22.883h5.023v4.33h-5.023z"
         android:strokeColor="#ff9a00" android:strokeWidth="0.26"/>

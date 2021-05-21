@@ -19,9 +19,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,8 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
     TextView tvCode;
 
     GenerateQrCodeResponse generateQrCodeResponse;
+    ProgressBar progressBar;
+    AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.6F);
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -79,6 +83,7 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
         btnDone = findViewById(R.id.btnDone);
         btnShare = findViewById(R.id.btnShare);
         tvCode = findViewById(R.id.tvCode);
+        progressBar = findViewById(R.id.progressbarRes);
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setAdapter(new DetailAbsensiAdapter(generateQrCodeResponse.dataMhs));
@@ -119,6 +124,8 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
 
         });
         btnDone.setOnClickListener(v -> {
+                v.startAnimation(buttonClick);
+                progressBar.setVisibility(View.VISIBLE);
                 Intent intent = new Intent(getApplicationContext(), RekapActivity.class);
                 intent.putExtra("absen", (ArrayList)((DetailAbsensiAdapter) rvList.getAdapter()).getDataMhs());
                 intent.putExtra("idabsen", generateQrCodeResponse.idAbsen);

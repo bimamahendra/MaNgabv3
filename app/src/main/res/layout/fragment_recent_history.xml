@@ -15,11 +15,22 @@
             android:layout_height="match_parent"
             android:padding="16dp">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/rvHistory"
-                tools:listitem="@layout/row_history_mhs" />
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/progressbarHis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/row_history_mhs" />
+            </RelativeLayout>
 
         </LinearLayout>
 

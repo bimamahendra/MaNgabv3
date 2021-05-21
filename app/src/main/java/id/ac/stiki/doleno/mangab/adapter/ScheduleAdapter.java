@@ -59,7 +59,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         holder.tvSubject.setText(list.get(position).nama + " | " + list.get(position).kelas);
         holder.tvIdSubject.setText(list.get(position).kode);
         holder.tvDate.setText(list.get(position).hari + "   " + list.get(position).waktuAwal + " - " + list.get(position).waktuAkhir);
-        holder.tvRoom.setText(list.get(position).ruang + " " +list.get(position).checkActive);
+        holder.tvRoom.setText(list.get(position).ruang);
         if (list.get(position).checkActive > 0) {
             holder.llShcedule.setBackgroundResource(R.color.colorGreenCard);
         }

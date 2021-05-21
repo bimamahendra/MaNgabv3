@@ -64,18 +64,19 @@ public class ScheduleActivity extends AppCompatActivity {
         api.myLecture(user.noInduk).enqueue(new Callback<MyLectureResponse>() {
             @Override
             public void onResponse(Call<MyLectureResponse> call, Response<MyLectureResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if(!response.body().error){
                     rvSchedule.setAdapter(new ScheduleAdapter(response.body().data));
-                    progressBar.setVisibility(View.GONE);
                 }else {
                     Toast.makeText(ScheduleActivity.this, response.body().message, Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<MyLectureResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 if(t instanceof UnknownHostException){
                     Toast.makeText(ScheduleActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 }else {
