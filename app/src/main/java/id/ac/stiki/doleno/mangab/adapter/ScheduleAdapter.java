@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Locale;
 
 import id.ac.stiki.doleno.mangab.R;
 import id.ac.stiki.doleno.mangab.activity.GenerateActivity;
@@ -58,7 +59,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     public void onBindViewHolder(@NonNull ScheduleAdapterVH holder, int position) {
         holder.tvSubject.setText(list.get(position).nama + " | " + list.get(position).kelas);
         holder.tvIdSubject.setText(list.get(position).kode);
-        holder.tvDate.setText(list.get(position).hari + "   " + list.get(position).waktuAwal + " - " + list.get(position).waktuAkhir);
+        holder.tvDate.setText(list.get(position).hari + " " + list.get(position).waktuAwal + " - " + list.get(position).waktuAkhir);
         holder.tvRoom.setText(list.get(position).ruang);
         if (list.get(position).checkActive > 0) {
             holder.llShcedule.setBackgroundResource(R.color.colorGreenCard);

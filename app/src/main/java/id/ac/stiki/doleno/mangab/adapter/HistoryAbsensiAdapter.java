@@ -59,7 +59,7 @@ public class HistoryAbsensiAdapter extends RecyclerView.Adapter<HistoryAbsensiAd
         holder.tvHadir.setText("Hadir\n"+dataHistory.get(position).hadir);
         holder.tvSakit.setText("Sakit\n"+dataHistory.get(position).sakit);
         holder.tvIzin.setText("Izin\n"+dataHistory.get(position).izin);
-        holder.tvAlpha.setText("Alpha\n"+dataHistory.get(position).alpha);
+        holder.tvAlpha.setText("Alpa\n"+dataHistory.get(position).alpha);
     }
 
     public String parseDate(String time) {

@@ -98,7 +98,7 @@
                 android:textSize="12sp"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="10dp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -181,7 +181,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:fontFamily="@font/montserrat_light"
-                    android:text="Alpha\n0"
+                    android:text="Alpa\n0"
                     android:textColor="@android:color/black"
                     android:layout_marginEnd="10dp"
                     android:textStyle="bold"

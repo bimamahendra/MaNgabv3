@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="7.5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="7.5dp"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,18 +22,18 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_book"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_book" />
 
             <TextView
+                android:id="@+id/tvSubjectM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mata Kuliah"
+                android:layout_gravity="center_vertical"
                 android:fontFamily="@font/montserrat_bold"
-                android:layout_gravity="center_vertical"
+                android:text="Mata Kuliah"
                 android:textColor="@android:color/white"
-                android:id="@+id/tvMatkul"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -40,23 +41,58 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_clock"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_clock" />
+
+                <TextView
+                    android:id="@+id/tvClassDateM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="12 Desember 2019 10:10"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="12 Desember 2019 10:10"
-                android:fontFamily="@font/montserrat_light"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/tvAbsen"
-                android:textSize="12sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_room" />
+
+                <TextView
+                    android:id="@+id/tvRoomM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="DARING"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -64,48 +100,60 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_person"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"/>
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_draft" />
+
+                <TextView
+                    android:id="@+id/tvTopicM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="topik"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nama Dosen"
-                android:fontFamily="@font/montserrat_light"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/tvNamaDosen"
-                android:textSize="12sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ic_person"
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:id="@+id/tvAttend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/montserrat_light"
+                    android:text="Hadir"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_draft"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hadir"
-                android:fontFamily="@font/montserrat_light"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/tvStatusKehadiran"
-                android:textSize="12sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"/>
-        </LinearLayout>
 
     </LinearLayout>
 

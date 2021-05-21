@@ -36,7 +36,7 @@ public class SummaryAdapter extends RecyclerView.Adapter<SummaryAdapter.SummaryV
         holder.tvSubject.setText(list.get(position).namaMatkul + " | " + list.get(position).kelasMatkul);
         holder.tvIdSubject.setText(list.get(position).kodeMatkul);
         holder.tvDate.setText(list.get(position).hari + " " + list.get(position).waktuAwal + " - " + list.get(position).waktuAkhir);
-        holder.tvRoom.setText(list.get(position).ruangMatkul);
+        holder.tvRoom.setText(list.get(position).ruangMatkul.toLowerCase());
         holder.tvMeet.setText("Pertemuan ke :\n" + list.get(position).pertemuan);
     }
 

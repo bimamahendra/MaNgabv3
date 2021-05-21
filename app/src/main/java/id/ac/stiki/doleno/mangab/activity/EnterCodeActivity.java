@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,11 +30,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EnterCodeActivity extends AppCompatActivity {
-    private Api api = ApiClient.getClient();
-    private User user;
+    Api api = ApiClient.getClient();
+    User user;
 
-    private Button btnSubmit;
-    private EditText etCode1, etCode2, etCode3, etCode4, etCode5, etCode6;
+    Button btnSubmit;
+    EditText etCode1, etCode2, etCode3, etCode4, etCode5, etCode6;
+    AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.6F);
 
     MyLocation myLocation = new MyLocation();
 
@@ -147,11 +149,9 @@ public class EnterCodeActivity extends AppCompatActivity {
             }
         });
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myLocation.getLocation(getApplicationContext(), locationResult);
-            }
+        btnSubmit.setOnClickListener(v ->  {
+            v.startAnimation(buttonClick);
+            myLocation.getLocation(getApplicationContext(), locationResult);
         });
 
     }

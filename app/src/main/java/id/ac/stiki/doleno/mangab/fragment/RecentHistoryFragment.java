@@ -93,6 +93,7 @@ public class RecentHistoryFragment extends Fragment {
             api.historyAbsensiDosen(user.noInduk).enqueue(new Callback<HistoryAbsensiResponse>() {
                 @Override
                 public void onResponse(Call<HistoryAbsensiResponse> call, Response<HistoryAbsensiResponse> response) {
+                    progressBar.setVisibility(View.GONE);
                     if (response.code() == 200) {
                         if (!response.body().error) {
                             rvHistory.setAdapter(new HistoryAbsensiAdapter(response.body().data));
@@ -104,6 +105,7 @@ public class RecentHistoryFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<HistoryAbsensiResponse> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
                     if(t instanceof UnknownHostException){
                         Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                     }else {

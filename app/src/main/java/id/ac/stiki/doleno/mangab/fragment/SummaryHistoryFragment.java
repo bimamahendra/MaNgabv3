@@ -68,7 +68,9 @@ public class SummaryHistoryFragment extends Fragment {
     }
 
     private void getSummary() {
-        if (user.type.equalsIgnoreCase("mahasiswa")) {}
+        if (user.type.equalsIgnoreCase("mahasiswa")) {
+            progressBar.setVisibility(View.GONE);
+        }
         else{
             api.summary(user.noInduk).enqueue(new Callback<SummaryResponse>() {
                 @Override

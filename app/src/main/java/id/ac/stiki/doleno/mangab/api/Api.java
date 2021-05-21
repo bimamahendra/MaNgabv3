@@ -73,7 +73,7 @@ public interface Api {
 
     @POST("absen/historyAbsensiMhs")
     @FormUrlEncoded
-    Call<HistoryAbsensiMhsResponse> historyAbsensiMhs(@Field("no_induk") String noInduk);
+    Call<HistoryAbsensiMhsResponse> historyAbsensiMhs(@Field("nrp") String noInduk);
 
     @POST("absen/rekap")
     @FormUrlEncoded

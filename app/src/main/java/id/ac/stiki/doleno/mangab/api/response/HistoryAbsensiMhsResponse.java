@@ -9,31 +9,28 @@ public class HistoryAbsensiMhsResponse extends BaseResponse {
     public List<HistoryAbsensiData> data;
 
     public static class HistoryAbsensiData {
-        @SerializedName("kode_matkul")
+        @SerializedName("KODE_MATKUL")
         public String kodeMatkul;
 
-        @SerializedName("nama_matkul")
+        @SerializedName("NAMA_MATKUL")
         public String namaMatkul;
 
-        @SerializedName("nama_dosen")
-        public String namaDosen;
-
-        @SerializedName("kelas_matkul")
+        @SerializedName("KELAS_PRTMN")
         public String kelasMatkul;
 
-        @SerializedName("topik_matkul")
+        @SerializedName("RUANG_PRTMN")
+        public String ruangMatkul;
+
+        @SerializedName("ID_JADWAL")
+        public String idJadwal;
+
+        @SerializedName("TOPIK_ABSEN")
         public String topikMatkul;
 
-        @SerializedName("jenis_absen")
-        public int jenisAbsen;
+        @SerializedName("TS_ABSEN")
+        public String tsAbsen;
 
-        @SerializedName("jadwal_kelas")
-        public String jadwalKelas;
-
-        @SerializedName("status_absen")
+        @SerializedName("STATUS_DETABSEN")
         public int statusAbsen;
-
-        @SerializedName("jadwal_absen")
-        public String jadwalAbsen;
     }
 }

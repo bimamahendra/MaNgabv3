@@ -35,17 +35,18 @@ public class HistoryMhsAdapter extends RecyclerView.Adapter<HistoryMhsAdapter.Hi
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapterVH holder, int position) {
 
-        holder.tvMatkul.setText(list.get(position).namaMatkul + " | " + list.get(position).kelasMatkul);
-        holder.tvAbsen.setText(parseDate(list.get(position).jadwalAbsen)+ " - " + (list.get(position).jenisAbsen == 0? "Offline" : "Online"));
-        holder.tvNamaDosen.setText(list.get(position).namaDosen);
+        holder.tvSubject.setText(list.get(position).namaMatkul + " | " + list.get(position).kelasMatkul);
+        holder.tvRoom.setText(list.get(position).ruangMatkul);
+        holder.tvDate.setText(parseDate(list.get(position).tsAbsen));
+        holder.tvTopic.setText(list.get(position).topikMatkul);
         if(list.get(position).statusAbsen == 0){
-            holder.tvStatusKehadiran.setText("Alpa");
+            holder.tvAttend.setText("Alpa");
         }else if(list.get(position).statusAbsen == 1){
-            holder.tvStatusKehadiran.setText("Hadir");
+            holder.tvAttend.setText("Hadir");
         }else if(list.get(position).statusAbsen == 2){
-            holder.tvStatusKehadiran.setText("Izin");
+            holder.tvAttend.setText("Izin");
         }else if(list.get(position).statusAbsen == 3){
-            holder.tvStatusKehadiran.setText("Sakit");
+            holder.tvAttend.setText("Sakit");
         }
     }
 
@@ -73,13 +74,14 @@ public class HistoryMhsAdapter extends RecyclerView.Adapter<HistoryMhsAdapter.Hi
     }
 
     class HistoryAdapterVH extends RecyclerView.ViewHolder{
-        public TextView tvMatkul, tvAbsen, tvNamaDosen, tvStatusKehadiran;
+        public TextView tvSubject, tvDate, tvTopic, tvRoom, tvAttend;
         public HistoryAdapterVH(@NonNull View itemView) {
             super(itemView);
-            tvMatkul = itemView.findViewById(R.id.tvMatkul);
-            tvAbsen = itemView.findViewById(R.id.tvAbsen);
-            tvNamaDosen = itemView.findViewById(R.id.tvNamaDosen);
-            tvStatusKehadiran = itemView.findViewById(R.id.tvStatusKehadiran);
+            tvSubject = itemView.findViewById(R.id.tvSubjectM);
+            tvDate = itemView.findViewById(R.id.tvClassDateM);
+            tvTopic = itemView.findViewById(R.id.tvTopicM);
+            tvRoom = itemView.findViewById(R.id.tvRoomM);
+            tvAttend = itemView.findViewById(R.id.tvAttend);
         }
     }
 }
