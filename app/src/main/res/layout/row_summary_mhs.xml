@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="7.5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="7.5dp"
+    app:cardCornerRadius="5dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,63 +22,115 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_book"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_book" />
 
             <TextView
+                android:id="@+id/tvSubjectS"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mata Kuliah"
-                android:fontFamily="@font/montserrat_bold"
                 android:layout_gravity="center_vertical"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Mata Kuliah"
                 android:textColor="@android:color/white"
-                android:id="@+id/tvMatkul"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:orientation="horizontal"
             android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:fontFamily="@font/montserrat_light"
-                    android:text="Hadir\n0"/>
+                    >
 
-                <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_room"
+                        android:layout_marginEnd="10dp"/>
+
+                    <TextView
+                        android:id="@+id/tvRoomS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="A.1.1"
+                        android:fontFamily="@font/montserrat_light"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:fontFamily="@font/montserrat_light"
-                    android:text="Sakit\n0"/>
+                    android:layout_marginTop="10dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_person" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:fontFamily="@font/montserrat_light"
+                        android:text="Hadir\n0"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:id="@+id/tvHadirS"
+                        android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:fontFamily="@font/montserrat_light"
-                    android:text="Ijin\n0"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:fontFamily="@font/montserrat_light"
+                        android:text="Sakit\n0"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:id="@+id/tvSakitS"
+                        android:textSize="12sp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:fontFamily="@font/montserrat_light"
-                    android:text="Alpa\n0"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:fontFamily="@font/montserrat_light"
+                        android:text="Izin\n0"
+                        android:textColor="@android:color/black"
+                        android:textStyle="bold"
+                        android:id="@+id/tvIzinS"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:fontFamily="@font/montserrat_light"
+                        android:text="Alpa\n0"
+                        android:textColor="@android:color/black"
+                        android:layout_marginEnd="10dp"
+                        android:textStyle="bold"
+                        android:id="@+id/tvAlpaS"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -86,7 +139,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:fontFamily="@font/montserrat_semibold"
-                android:text="Presentase\n100%"/>
+                android:text="Attendance\n0"
+                android:id="@+id/tvPercent"/>
 
         </LinearLayout>
 

@@ -1,12 +1,6 @@
 package id.ac.stiki.doleno.mangab.fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import java.net.UnknownHostException;
 
 import id.ac.stiki.doleno.mangab.R;
-import id.ac.stiki.doleno.mangab.adapter.HistoryAbsensiAdapter;
 import id.ac.stiki.doleno.mangab.adapter.SummaryAdapter;
+import id.ac.stiki.doleno.mangab.adapter.SummaryMhsAdapter;
 import id.ac.stiki.doleno.mangab.api.Api;
 import id.ac.stiki.doleno.mangab.api.ApiClient;
+import id.ac.stiki.doleno.mangab.api.response.SummaryMhsResponse;
 import id.ac.stiki.doleno.mangab.api.response.SummaryResponse;
 import id.ac.stiki.doleno.mangab.model.User;
 import id.ac.stiki.doleno.mangab.preference.AppPreference;
@@ -38,7 +38,9 @@ public class SummaryHistoryFragment extends Fragment {
     private ProgressBar progressBar;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) { super.onCreate(savedInstanceState); }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,16 +71,37 @@ public class SummaryHistoryFragment extends Fragment {
 
     private void getSummary() {
         if (user.type.equalsIgnoreCase("mahasiswa")) {
-            progressBar.setVisibility(View.GONE);
-        }
-        else{
+            api.summaryMhs(user.noInduk).enqueue(new Callback<SummaryMhsResponse>() {
+                @Override
+                public void onResponse(Call<SummaryMhsResponse> call, Response<SummaryMhsResponse> response) {
+                    progressBar.setVisibility(View.GONE);
+                    if (!response.body().error) {
+                        rvSummary.setAdapter(new SummaryMhsAdapter(response.body().data));
+                    } else {
+                        Toast.makeText(getContext(), response.body().message, Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<SummaryMhsResponse> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
+                    if (t instanceof UnknownHostException) {
+                        Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    } else {
+                        t.printStackTrace();
+                    }
+                }
+            });
+
+        } else {
             api.summary(user.noInduk).enqueue(new Callback<SummaryResponse>() {
                 @Override
                 public void onResponse(Call<SummaryResponse> call, Response<SummaryResponse> response) {
                     progressBar.setVisibility(View.GONE);
                     if (!response.body().error) {
                         rvSummary.setAdapter(new SummaryAdapter(response.body().data));
-                    }else {
+                    } else {
                         Toast.makeText(getContext(), response.body().message, Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -86,9 +109,9 @@ public class SummaryHistoryFragment extends Fragment {
                 @Override
                 public void onFailure(Call<SummaryResponse> call, Throwable t) {
                     progressBar.setVisibility(View.GONE);
-                    if(t instanceof UnknownHostException){
+                    if (t instanceof UnknownHostException) {
                         Toast.makeText(getContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         t.printStackTrace();
                     }
 

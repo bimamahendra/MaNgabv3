@@ -10,6 +10,7 @@ import id.ac.stiki.doleno.mangab.api.response.LoginResponse;
 import id.ac.stiki.doleno.mangab.api.response.MyClassResponse;
 import id.ac.stiki.doleno.mangab.api.response.MyLectureResponse;
 
+import id.ac.stiki.doleno.mangab.api.response.SummaryMhsResponse;
 import id.ac.stiki.doleno.mangab.api.response.SummaryResponse;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -82,5 +83,9 @@ public interface Api {
     @POST("absen/summaryAbsensiDosen")
     @FormUrlEncoded
     Call<SummaryResponse> summary(@Field("nip") String noInduk);
+
+    @POST("absen/summaryAbsensiMhs")
+    @FormUrlEncoded
+    Call<SummaryMhsResponse> summaryMhs(@Field("nrp") String noInduk);
 
 }
