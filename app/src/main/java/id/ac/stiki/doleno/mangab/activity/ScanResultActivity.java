@@ -25,9 +25,9 @@ public class ScanResultActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
 
         if (getIntent().getBooleanExtra("error", false)) {
-            ivMedal.setImageResource(R.drawable.failure);
-        } else {
             ivMedal.setImageResource(R.drawable.success);
+        } else {
+            ivMedal.setImageResource(R.drawable.failure);
         }
 
         tvKeterangan.setText(getIntent().getStringExtra("message"));

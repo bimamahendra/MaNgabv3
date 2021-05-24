@@ -44,9 +44,9 @@ public class HistoryMhsAdapter extends RecyclerView.Adapter<HistoryMhsAdapter.Hi
         }else if(list.get(position).statusAbsen == 1){
             holder.tvAttend.setText("Hadir");
         }else if(list.get(position).statusAbsen == 2){
-            holder.tvAttend.setText("Izin");
-        }else if(list.get(position).statusAbsen == 3){
             holder.tvAttend.setText("Sakit");
+        }else if(list.get(position).statusAbsen == 3){
+            holder.tvAttend.setText("Izin");
         }
     }
 
