@@ -119,7 +119,12 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
             }
 
             share.putExtra(Intent.EXTRA_STREAM, uri);
-            share.putExtra(Intent.EXTRA_TEXT, "MaNgab QR Code : "+ tvCode.getText());
+            share.putExtra(Intent.EXTRA_TEXT,
+                    "[MaNgab] Silahkan melakukan presensi untuk perkuliahan :" +
+                    "\n \nKode Prodi : "+ generateQrCodeResponse.dataClass.get(0).kodeProdi +
+                    "\nKode Matakuliah : "+ generateQrCodeResponse.dataClass.get(0).kodeMatkul +
+                    "\nNama Matakuliah : "+ generateQrCodeResponse.dataClass.get(0).namaMatkul + " - " + generateQrCodeResponse.dataClass.get(0).kelasMatkul +
+                    "\n \nMaNgab QR Code : "+ tvCode.getText());
             startActivity(Intent.createChooser(share, "Share Image"));
 
         });
@@ -140,7 +145,7 @@ public class ResultActivity extends AppCompatActivity implements Callback<Detail
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, final int id) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), ScheduleActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }

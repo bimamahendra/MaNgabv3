@@ -109,7 +109,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
             }
 
             if (etMethod.getText().toString().equals("")) {
-                Toast.makeText(this, "Media is empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Method is empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 

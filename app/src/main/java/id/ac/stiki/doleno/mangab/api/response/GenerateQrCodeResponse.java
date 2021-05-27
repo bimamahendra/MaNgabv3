@@ -14,4 +14,7 @@ public class GenerateQrCodeResponse extends BaseResponse implements Serializable
 
     @SerializedName("data_mhs")
     public List<DetailAbsenResponse.MhsData> dataMhs;
+
+    @SerializedName("detail_kelas")
+    public List<ClassDetailResponse.DetailClassData> dataClass;
 }
