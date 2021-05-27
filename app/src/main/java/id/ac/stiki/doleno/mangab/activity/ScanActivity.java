@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -41,12 +42,14 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     private ZXingScannerView mScannerView;
     private boolean isCaptured = false;
+    private static double latitudeData;
+    private static double longitudeData;
 
     FrameLayout frameLayoutCamera;
     Guideline guideline;
 
     MyLocation myLocation = new MyLocation();
-    double latitude, longitude;
+
 
     @SuppressLint("MissingPermission")
     @Override
@@ -115,27 +118,30 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     public void handleResult(Result result) {
         if (!isCaptured) {
             isCaptured = true;
-            scanQrCode(result.getText(), latitude, longitude);
+            scanQrCode(result.getText());
         }
     }
 
     MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
         @Override
         public void gotLocation(Location location) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            setDataLat(latitude);
+            setDataLong(longitude);
         }
     };
 
-    private void scanQrCode(String result, double latitude, double longitude) {
-        api.absenMhs(result, user.noInduk, 1, latitude, longitude).enqueue(new Callback<BaseResponse>() {
+    private void scanQrCode(String result) {
+        myLocation.getLocation(getApplicationContext(), locationResult);
+        api.absenMhs(result, user.noInduk, 1, getDataLat(), getDataLong()).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 isCaptured = false;
                 finish();
                 Intent intent = new Intent(getApplicationContext(), ScanResultActivity.class);
                 intent.putExtra("error", response.body().error);
-                intent.putExtra("message", response.body().message);
+                intent.putExtra("message", response.body().message +"\n"+getDataLat() + "\n"+getDataLong());
                 startActivity(intent);
             }
 
@@ -157,6 +163,21 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         });
 
     }
+
+    public static double getDataLat() {
+        return latitudeData;
+    }
+    public static void setDataLat(double data) {
+        latitudeData = data;
+    }
+
+    public static double getDataLong() {
+        return longitudeData;
+    }
+    public static void setDataLong(double data) {
+        longitudeData = data;
+    }
+
 
 }
 

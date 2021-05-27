@@ -60,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorAccent"
                 android:gravity="center"
+                android:scaleType="fitCenter"
                 android:src="@drawable/ic_share" />
         </LinearLayout>
     </LinearLayout>

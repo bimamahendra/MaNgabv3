@@ -37,8 +37,13 @@ public class SummaryMhsAdapter extends RecyclerView.Adapter<SummaryMhsAdapter.Su
         holder.tvSakit.setText("Sakit\n"+list.get(position).sakit);
         holder.tvIzin.setText("Izin\n"+list.get(position).izin);
         holder.tvAlpa.setText("Alpa\n"+list.get(position).alpha);
+        if (list.get(position).hadir != 0){
         double attendance = (list.get(position).hadir / list.get(position).pertemuan) * 100;
-        holder.tvPercent.setText("Attendance\n"+String.format("%.2f", attendance)+"%");
+            holder.tvPercent.setText("Attendance\n"+String.format("%.2f", attendance)+"%");
+        }else{
+            holder.tvPercent.setText("Attendance\n"+"-");
+        }
+
     }
 
     @Override
