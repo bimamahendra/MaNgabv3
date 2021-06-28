@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,8 +28,12 @@ public class MyLocation {
             lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         //exceptions will be thrown if provider is not permitted.
-        try{gps_enabled=lm.isProviderEnabled(LocationManager.GPS_PROVIDER);}catch(Exception ex){}
-        try{network_enabled=lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);}catch(Exception ex){}
+        try{gps_enabled=lm.isProviderEnabled(LocationManager.GPS_PROVIDER);}catch(Exception ex){
+            Log.e("gps_enabled", ex.getMessage().toString());
+        }
+        try{network_enabled=lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);}catch(Exception ex){
+            Log.e("network_enabled", ex.getMessage().toString());
+        }
 
         //Toast.makeText(context, gps_enabled+" "+network_enabled,     Toast.LENGTH_LONG).show();
 
@@ -43,7 +48,7 @@ public class MyLocation {
         timer1=new Timer();
 
 
-        timer1.schedule(new GetLastLocation(), 10000);
+        timer1.schedule(new GetLastLocation(), 0);
         //    Toast.makeText(context, " Yaha Tak AAya", Toast.LENGTH_LONG).show();
         return true;
     }
@@ -90,13 +95,18 @@ public class MyLocation {
         @Override
 
         public void run() {
-
+            Log.e("gps", String.valueOf(gps_enabled));
+            Log.e("network", String.valueOf(network_enabled));
             //Context context = getClass().getgetApplicationContext();
-            Location net_loc=null, gps_loc=null;
-            if(gps_enabled)
-                gps_loc=lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(network_enabled)
-                net_loc=lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Location net_loc = null, gps_loc=null;
+            if(gps_enabled) {
+                gps_loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Log.e("latitude", String.valueOf(gps_loc.getLatitude()));
+                Log.e("longitude", String.valueOf(gps_loc.getLongitude()));
+            }
+            if(network_enabled) {
+                net_loc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
 
             //if there are both values use the latest one
             if(gps_loc!=null && net_loc!=null){
@@ -109,13 +119,15 @@ public class MyLocation {
 
             if(gps_loc!=null){
                 locationResult.gotLocation(gps_loc);
+
+
                 return;
             }
             if(net_loc!=null){
                 locationResult.gotLocation(net_loc);
                 return;
             }
-            locationResult.gotLocation(null);
+//            locationResult.gotLocation(null);
         }
     }
 

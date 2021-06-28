@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
@@ -24,7 +28,10 @@ import id.ac.stiki.doleno.mangab.preference.AppPreference;
 import id.ac.stiki.doleno.mangab.preference.MyLocation;
 
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Locale;
 
+import id.ac.stiki.doleno.mangab.service.GpsTracker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,6 +43,9 @@ public class EnterCodeActivity extends AppCompatActivity {
     Button btnSubmit;
     EditText etCode1, etCode2, etCode3, etCode4, etCode5, etCode6;
     AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.6F);
+
+    private GpsTracker gpsTracker;
+    private double latitude, longitude;
 
     MyLocation myLocation = new MyLocation();
 
@@ -53,6 +63,8 @@ public class EnterCodeActivity extends AppCompatActivity {
         etCode6 = findViewById(R.id.etCode6);
         btnSubmit = findViewById(R.id.btnSubmit);
         user = AppPreference.getUser(this);
+
+        getNewLocation();
 
         etCode1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -151,7 +163,8 @@ public class EnterCodeActivity extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(v ->  {
             v.startAnimation(buttonClick);
-            myLocation.getLocation(getApplicationContext(), locationResult);
+//            myLocation.getLocation(getApplicationContext(), locationResult);
+            enterCode(latitude, longitude);
         });
 
     }
@@ -197,5 +210,30 @@ public class EnterCodeActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void getNewLocation(){
+        gpsTracker = new GpsTracker(EnterCodeActivity.this);
+        if( Settings.Secure.getInt(this.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0) < 1) {
+            if (gpsTracker.canGetLocation()) {
+                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude();
+                try {
+                    Geocoder geocoder = new Geocoder(EnterCodeActivity.this, Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    Log.e("address", addresses.get(0).getAddressLine(0));
+//                address = addresses.get(0).getAddressLine(0);
+//                textViewLokasi.setText(address);
+                    this.latitude = latitude;
+                    this.longitude = longitude;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                gpsTracker.showSettingsAlert();
+            }
+        }else{
+            gpsTracker.showDeveloperAlert();
+        }
     }
 }

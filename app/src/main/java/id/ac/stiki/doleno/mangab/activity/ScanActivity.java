@@ -2,11 +2,16 @@ package id.ac.stiki.doleno.mangab.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AppOpsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +24,8 @@ import androidx.constraintlayout.widget.Guideline;
 
 import com.google.gson.JsonSyntaxException;
 import com.google.zxing.Result;
+
+import id.ac.stiki.doleno.mangab.BuildConfig;
 import id.ac.stiki.doleno.mangab.R;
 import id.ac.stiki.doleno.mangab.api.Api;
 import id.ac.stiki.doleno.mangab.api.ApiClient;
@@ -28,7 +35,10 @@ import id.ac.stiki.doleno.mangab.preference.AppPreference;
 import id.ac.stiki.doleno.mangab.preference.MyLocation;
 
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.Locale;
 
+import id.ac.stiki.doleno.mangab.service.GpsTracker;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +54,9 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     private boolean isCaptured = false;
     private static double latitudeData;
     private static double longitudeData;
+
+    private GpsTracker gpsTracker;
+    private double latitude, longitude;
 
     FrameLayout frameLayoutCamera;
     Guideline guideline;
@@ -62,8 +75,10 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         frameLayoutCamera = findViewById(R.id.frame_layout_camera);
         guideline = findViewById(R.id.guideline);
         btnEnterCode = findViewById(R.id.btnEnterCode);
-        myLocation.getLocation(getApplicationContext(), locationResult);
+//        myLocation.getLocation(getApplicationContext(), locationResult);
         initScannerView();
+
+        getNewLocation();
 
         btnEnterCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,8 +148,8 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
     };
 
     private void scanQrCode(String result) {
-        myLocation.getLocation(getApplicationContext(), locationResult);
-        api.absenMhs(result, user.noInduk, 1, getDataLat(), getDataLong()).enqueue(new Callback<BaseResponse>() {
+//        myLocation.getLocation(getApplicationContext(), locationResult);
+        api.absenMhs(result, user.noInduk, 1, latitude, longitude).enqueue(new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 isCaptured = false;
@@ -163,6 +178,32 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         });
 
     }
+
+    public void getNewLocation(){
+        gpsTracker = new GpsTracker(ScanActivity.this);
+        if( Settings.Secure.getInt(this.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0) < 1) {
+            if (gpsTracker.canGetLocation()) {
+                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude();
+                try {
+                    Geocoder geocoder = new Geocoder(ScanActivity.this, Locale.getDefault());
+                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    Log.e("address", addresses.get(0).getAddressLine(0));
+//                address = addresses.get(0).getAddressLine(0);
+//                textViewLokasi.setText(address);
+                    this.latitude = latitude;
+                    this.longitude = longitude;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                gpsTracker.showSettingsAlert();
+            }
+        }else{
+            gpsTracker.showDeveloperAlert();
+        }
+    }
+
 
     public static double getDataLat() {
         return latitudeData;

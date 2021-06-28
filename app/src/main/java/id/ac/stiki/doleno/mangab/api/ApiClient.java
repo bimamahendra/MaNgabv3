@@ -34,7 +34,7 @@ public class ApiClient {
             retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(builder))
                     .client(okHttpClient)
-                    .baseUrl("https://s4ishoku.site/mangabv3/api/")
+                    .baseUrl("https://mangab.my.id/api/")
                     .build();
 
             api = retrofit.create(Api.class);

@@ -2,8 +2,11 @@ package id.ac.stiki.doleno.mangab.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -31,8 +34,10 @@ import id.ac.stiki.doleno.mangab.preference.MyLocation;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
+import id.ac.stiki.doleno.mangab.service.GpsTracker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +55,9 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
     RadioGroup rgType;
     RadioButton rbOffline, rbOnline;
     ProgressBar progressBar;
+
+    private GpsTracker gpsTracker;
+    private double latitude, longitude;
 
     public static final String UrlImgValue = "urlimg";
     public static final String idAbsen = "idabsen";
@@ -73,6 +81,8 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
         rbOffline = findViewById(R.id.rbOffline);
         rbOnline = findViewById(R.id.rbOnline);
         progressBar = findViewById(R.id.progressbarGen);
+
+        getNewLocation();
 
         tvSubject.setText(getIntent().getStringExtra(ScheduleAdapter.Subject) + " | " + getIntent().getStringExtra(ScheduleAdapter.SubClass));
         tvDate.setText(new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
@@ -119,8 +129,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
                 return;
             }
 
-            myLocation.getLocation(getApplicationContext(), locationResult);
-
+            generateQrCode(latitude, longitude);
 
         }
     }
@@ -165,5 +174,28 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+    }
+
+    public void getNewLocation(){
+        gpsTracker = new GpsTracker(GenerateActivity.this);
+        if( Settings.Secure.getInt(this.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0) < 1){
+        if(gpsTracker.canGetLocation()){
+            double latitude = gpsTracker.getLatitude();
+            double longitude = gpsTracker.getLongitude();
+            try {
+                Geocoder geocoder = new Geocoder(GenerateActivity.this, Locale.getDefault());
+                List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                Log.e("address", addresses.get(0).getAddressLine(0));
+                this.latitude = latitude;
+                this.longitude = longitude;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else{
+            gpsTracker.showSettingsAlert();
+        }
+    }else{
+        gpsTracker.showDeveloperAlert();
+    }
     }
 }
