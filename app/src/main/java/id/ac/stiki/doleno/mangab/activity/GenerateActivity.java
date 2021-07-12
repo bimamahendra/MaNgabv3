@@ -50,6 +50,7 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
     Button btnGenerate;
     TextView tvSubject, tvDate;
+    Spinner spSubject, spClass;
     EditText etTopic, etMethod;
     RadioGroup rgType;
     RadioButton rbOffline, rbOnline;
