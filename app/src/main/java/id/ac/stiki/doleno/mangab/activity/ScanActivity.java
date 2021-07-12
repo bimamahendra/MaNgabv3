@@ -45,179 +45,177 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ScanActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-    private Button btnEnterCode;
+  private Button btnEnterCode;
 
-    private Api api = ApiClient.getClient();
-    private User user;
+  private Api api = ApiClient.getClient();
+  private User user;
 
-    private ZXingScannerView mScannerView;
-    private boolean isCaptured = false;
-    private static double latitudeData;
-    private static double longitudeData;
+  private ZXingScannerView mScannerView;
+  private boolean isCaptured = false;
+  private static double latitudeData;
+  private static double longitudeData;
 
-    private GpsTracker gpsTracker;
-    private double latitude, longitude;
+  private GpsTracker gpsTracker;
+  private double latitude, longitude;
 
-    FrameLayout frameLayoutCamera;
-    Guideline guideline;
+  FrameLayout frameLayoutCamera;
+  Guideline guideline;
 
-    MyLocation myLocation = new MyLocation();
+  MyLocation myLocation = new MyLocation();
 
 
-    @SuppressLint("MissingPermission")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan);
+  @SuppressLint("MissingPermission")
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_scan);
 
-        user = AppPreference.getUser(this);
+    user = AppPreference.getUser(this);
 
-        frameLayoutCamera = findViewById(R.id.frame_layout_camera);
-        guideline = findViewById(R.id.guideline);
-        btnEnterCode = findViewById(R.id.btnEnterCode);
+    frameLayoutCamera = findViewById(R.id.frame_layout_camera);
+    guideline = findViewById(R.id.guideline);
+    btnEnterCode = findViewById(R.id.btnEnterCode);
 //        myLocation.getLocation(getApplicationContext(), locationResult);
-        initScannerView();
+    initScannerView();
 
-        getNewLocation();
+    getNewLocation();
 
-        btnEnterCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ScanActivity.this, EnterCodeActivity.class));
-            }
-        });
+    btnEnterCode.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        startActivity(new Intent(ScanActivity.this, EnterCodeActivity.class));
+      }
+    });
+  }
+
+  private void initScannerView() {
+    mScannerView = new ZXingScannerView(this);
+    mScannerView.setAutoFocus(true);
+    mScannerView.setResultHandler(this);
+    frameLayoutCamera.addView(mScannerView);
+  }
+
+  @Override
+  protected void onStart() {
+    doRequestPermission();
+    mScannerView.startCamera();
+    super.onStart();
+  }
+
+  private void doRequestPermission() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+      }
     }
+  }
 
-    private void initScannerView() {
-        mScannerView = new ZXingScannerView(this);
-        mScannerView.setAutoFocus(true);
-        mScannerView.setResultHandler(this);
-        frameLayoutCamera.addView(mScannerView);
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    if (requestCode == 100) {
+      initScannerView();
     }
+  }
 
+  @Override
+  protected void onPause() {
+    mScannerView.stopCamera();
+    super.onPause();
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+  }
+
+  @SuppressLint("MissingPermission")
+  @Override
+  public void handleResult(Result result) {
+    if (!isCaptured) {
+      isCaptured = true;
+      scanQrCode(result.getText());
+    }
+  }
+
+  MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
     @Override
-    protected void onStart() {
-        doRequestPermission();
-        mScannerView.startCamera();
-        super.onStart();
+    public void gotLocation(Location location) {
+      double latitude = location.getLatitude();
+      double longitude = location.getLongitude();
+      setDataLat(latitude);
+      setDataLong(longitude);
     }
+  };
 
-    private void doRequestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 100) {
-            initScannerView();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        mScannerView.stopCamera();
-        super.onPause();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @SuppressLint("MissingPermission")
-    @Override
-    public void handleResult(Result result) {
-        if (!isCaptured) {
-            isCaptured = true;
-            scanQrCode(result.getText());
-        }
-    }
-
-    MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-        @Override
-        public void gotLocation(Location location) {
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
-            setDataLat(latitude);
-            setDataLong(longitude);
-        }
-    };
-
-    private void scanQrCode(String result) {
+  private void scanQrCode(String result) {
 //        myLocation.getLocation(getApplicationContext(), locationResult);
-        api.absenMhs(result, user.noInduk, 1, latitude, longitude).enqueue(new Callback<BaseResponse>() {
-            @Override
-            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                isCaptured = false;
-                finish();
-                Intent intent = new Intent(getApplicationContext(), ScanResultActivity.class);
-                intent.putExtra("error", response.body().error);
-                intent.putExtra("message", response.body().message);
-                startActivity(intent);
-            }
+    api.absenMhs(result, user.noInduk, 1, latitude, longitude).enqueue(new Callback<BaseResponse>() {
+      @Override
+      public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+        isCaptured = false;
+        finish();
+        Intent intent = new Intent(getApplicationContext(), ScanResultActivity.class);
+        intent.putExtra("error", response.body().error);
+        intent.putExtra("message", response.body().message);
+        startActivity(intent);
+      }
 
-            @Override
-            public void onFailure(Call<BaseResponse> call, Throwable t) {
-                isCaptured = false;
-                if (t instanceof JsonSyntaxException) {
-                    finish();
-                    Intent intent = new Intent(getApplicationContext(), ScanResultActivity.class);
-                    intent.putExtra("error", true);
-                    intent.putExtra("message", "Invalid QR Code");
-                    startActivity(intent);
-                } else if (t instanceof UnknownHostException) {
-                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                } else {
-                    t.printStackTrace();
-                }
-            }
-        });
+      @Override
+      public void onFailure(Call<BaseResponse> call, Throwable t) {
+        isCaptured = false;
+        if (t instanceof JsonSyntaxException) {
+          finish();
+          Intent intent = new Intent(getApplicationContext(), ScanResultActivity.class);
+          intent.putExtra("error", true);
+          intent.putExtra("message", "Invalid QR Code");
+          startActivity(intent);
+        } else if (t instanceof UnknownHostException) {
+          Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        } else {
+          t.printStackTrace();
+        }
+      }
+    });
 
-    }
+  }
 
-    public void getNewLocation(){
-        gpsTracker = new GpsTracker(ScanActivity.this);
-        if( Settings.Secure.getInt(this.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0) < 1) {
-            if (gpsTracker.canGetLocation()) {
-                double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude();
-                try {
-                    Geocoder geocoder = new Geocoder(ScanActivity.this, Locale.getDefault());
-                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                    Log.e("address", addresses.get(0).getAddressLine(0));
+  public void getNewLocation() {
+    gpsTracker = new GpsTracker(ScanActivity.this);
+    if (gpsTracker.canGetLocation()) {
+      double latitude = gpsTracker.getLatitude();
+      double longitude = gpsTracker.getLongitude();
+      try {
+        Geocoder geocoder = new Geocoder(ScanActivity.this, Locale.getDefault());
+        List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+        Log.e("address", addresses.get(0).getAddressLine(0));
 //                address = addresses.get(0).getAddressLine(0);
 //                textViewLokasi.setText(address);
-                    this.latitude = latitude;
-                    this.longitude = longitude;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                gpsTracker.showSettingsAlert();
-            }
-        }else{
-            gpsTracker.showDeveloperAlert();
-        }
+        this.latitude = latitude;
+        this.longitude = longitude;
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    } else {
+      gpsTracker.showSettingsAlert();
     }
+  }
 
 
-    public static double getDataLat() {
-        return latitudeData;
-    }
-    public static void setDataLat(double data) {
-        latitudeData = data;
-    }
+  public static double getDataLat() {
+    return latitudeData;
+  }
 
-    public static double getDataLong() {
-        return longitudeData;
-    }
-    public static void setDataLong(double data) {
-        longitudeData = data;
-    }
+  public static void setDataLat(double data) {
+    latitudeData = data;
+  }
+
+  public static double getDataLong() {
+    return longitudeData;
+  }
+
+  public static void setDataLong(double data) {
+    longitudeData = data;
+  }
 
 
 }

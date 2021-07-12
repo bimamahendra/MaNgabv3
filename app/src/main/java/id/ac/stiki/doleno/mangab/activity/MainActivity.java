@@ -2,6 +2,7 @@ package id.ac.stiki.doleno.mangab.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -23,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import id.ac.stiki.doleno.mangab.service.GpsTracker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private CardView cvScan, cvGenerate, cvHistory;
     TextView tvCurrentDate, tvName, tvNoInduk;
     private ImageButton btnHelp, btnLogout;
+    private GpsTracker gpsTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,24 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("logout", t.getMessage());
             }
         }));
+
+        checkDeveloperOption();
+
+    }
+
+    public void checkDeveloperOption(){
+        gpsTracker = new GpsTracker(MainActivity.this);
+        if( Settings.Secure.getInt(this.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0) < 1){
+        }
+        else{
+            gpsTracker.showDeveloperAlert();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkDeveloperOption();
     }
 
     @Override

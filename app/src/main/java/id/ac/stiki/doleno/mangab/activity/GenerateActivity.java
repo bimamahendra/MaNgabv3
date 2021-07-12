@@ -46,11 +46,9 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
     Api api = ApiClient.getClient();
     User user;
-    MyClassResponse.MyClassData selectedClass;
 
     Button btnGenerate;
     TextView tvSubject, tvDate;
-    Spinner spSubject, spClass;
     EditText etTopic, etMethod;
     RadioGroup rgType;
     RadioButton rbOffline, rbOnline;
@@ -178,7 +176,6 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
     public void getNewLocation(){
         gpsTracker = new GpsTracker(GenerateActivity.this);
-        if( Settings.Secure.getInt(this.getContentResolver(), Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0) < 1){
         if(gpsTracker.canGetLocation()){
             double latitude = gpsTracker.getLatitude();
             double longitude = gpsTracker.getLongitude();
@@ -194,8 +191,5 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
         }else{
             gpsTracker.showSettingsAlert();
         }
-    }else{
-        gpsTracker.showDeveloperAlert();
-    }
     }
 }
