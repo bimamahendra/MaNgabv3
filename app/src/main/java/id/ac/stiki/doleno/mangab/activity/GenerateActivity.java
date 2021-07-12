@@ -46,6 +46,8 @@ public class GenerateActivity extends AppCompatActivity implements View.OnClickL
 
     Api api = ApiClient.getClient();
     User user;
+    MyClassResponse.MyClassData selectedClass;
+
     Button btnGenerate;
     TextView tvSubject, tvDate;
     EditText etTopic, etMethod;
