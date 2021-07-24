@@ -20,7 +20,7 @@ public class MyLectureResponse extends BaseResponse {
         @SerializedName("KELAS_PRTMN")
         public String kelas;
 
-        @SerializedName("RUANG_PRTMN")
+        @SerializedName("RUANG_KELAS")
         public String ruang;
 
         @SerializedName("ID_JADWAL")

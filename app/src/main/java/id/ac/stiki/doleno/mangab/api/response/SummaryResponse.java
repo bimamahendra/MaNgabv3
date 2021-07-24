@@ -19,7 +19,7 @@ public class SummaryResponse extends BaseResponse{
         @SerializedName("KELAS_PRTMN")
         public String kelasMatkul;
 
-        @SerializedName("RUANG_PRTMN")
+        @SerializedName("RUANG_KELAS")
         public String ruangMatkul;
 
         @SerializedName("ID_JADWAL")
