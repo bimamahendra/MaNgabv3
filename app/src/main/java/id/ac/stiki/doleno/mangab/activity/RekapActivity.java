@@ -141,38 +141,57 @@ public class RekapActivity extends AppCompatActivity implements RekapAbsensiAdap
         });
     }
 
-
-    @SuppressLint("MissingPermission")
-    @Override
     public void onHadirMhs(DetailAbsenResponse.MhsData data) {
-        FusedLocationProviderClient mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
-        mFusedLocation.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+        api.absenMhs(idAbsen, data.nrp, 1, 0, 0).enqueue(new Callback<BaseResponse>() {
             @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    api.absenMhs(idAbsen, data.nrp, 1, latitude, longitude).enqueue(new Callback<BaseResponse>() {
-                        @Override
-                        public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                            Log.e("Hadir", "Sukses");
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                Log.e("Hadir", "Sukses");
 //                Toast.makeText(RekapActivity.this, response.body().message, Toast.LENGTH_SHORT).show();
-                        }
+            }
 
-                        @Override
-                        public void onFailure(Call<BaseResponse> call, Throwable t) {
-                            if (t instanceof UnknownHostException) {
-                                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                            } else {
-                                t.printStackTrace();
-                            }
-                        }
-                    });
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                if (t instanceof UnknownHostException) {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                } else {
+                    t.printStackTrace();
                 }
             }
         });
-
     }
+
+
+//    @SuppressLint("MissingPermission")
+//    @Override
+//    public void onHadirMhs(DetailAbsenResponse.MhsData data) {
+//        FusedLocationProviderClient mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
+//        mFusedLocation.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+//            @Override
+//            public void onSuccess(Location location) {
+//                if (location != null) {
+//                    double latitude = location.getLatitude();
+//                    double longitude = location.getLongitude();
+//                    api.absenMhs(idAbsen, data.nrp, 1, latitude, longitude).enqueue(new Callback<BaseResponse>() {
+//                        @Override
+//                        public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+//                            Log.e("Hadir", "Sukses");
+////                Toast.makeText(RekapActivity.this, response.body().message, Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<BaseResponse> call, Throwable t) {
+//                            if (t instanceof UnknownHostException) {
+//                                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                t.printStackTrace();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//        });
+//
+//    }
 
     @Override
     public void onAlpaMhs(DetailAbsenResponse.MhsData data) {

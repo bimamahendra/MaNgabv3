@@ -1,5 +1,6 @@
 package id.ac.stiki.doleno.mangab.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class SummaryMhsAdapter extends RecyclerView.Adapter<SummaryMhsAdapter.Su
         holder.tvIzin.setText("Izin\n"+list.get(position).izin);
         holder.tvAlpa.setText("Alpa\n"+list.get(position).alpha);
         if (list.get(position).hadir != 0){
-        double attendance = (list.get(position).hadir / list.get(position).pertemuan) * 100;
+        double attendance = (Double.parseDouble(String.valueOf(list.get(position).hadir))  / Double.parseDouble(String.valueOf(list.get(position).pertemuan))) * 100;
             holder.tvPercent.setText("Attendance\n"+String.format("%.2f", attendance)+"%");
         }else{
             holder.tvPercent.setText("Attendance\n"+"-");
